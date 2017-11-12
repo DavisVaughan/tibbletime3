@@ -77,11 +77,11 @@ slice.tbl_time <- function(.data, ...) {
 #' @export
 #' @importFrom dplyr group_by
 group_by.tbl_time <- function(.data, ..., add = FALSE) {
-  # Normal group then pass to grouped_tbl_time constructor
-  # quos <- rlang::quos(...)
-  # .data_grouped <- dplyr::group_by(as_tibble(.data), !!! quos, add = add)
-  # grouped_tbl_time(.data_grouped, !! get_index_quo(.data))
-  sloop::reconstruct(NextMethod(), .data)
+  #Normal group then pass to grouped_tbl_time constructor
+  quos <- rlang::quos(...)
+  .data_grouped <- dplyr::group_by(as_tibble(.data), !!! quos, add = add)
+  grouped_tbl_time(.data_grouped, !! get_index_quo(.data))
+  #sloop::reconstruct(NextMethod(), .data)
 }
 
 #' @export
