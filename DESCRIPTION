@@ -1,0 +1,31 @@
+Package: tibbletime3
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Davis
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr,
+    hms,
+    lubridate,
+    purrr,
+    rlang,
+    sloop,
+    tibble,
+    tidyselect,
+    zoo,
+    Rcpp
+Remotes:
+    tidyverse/tibble,
+    hadley/sloop
+RoxygenNote: 6.0.1.9000
+Suggests:
+    testthat
+URL: https://github.com/DavisVaughan/tibbletime3
+BugReports: https://github.com/DavisVaughan/tibbletime3/issues
+LinkingTo: Rcpp
