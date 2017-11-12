@@ -86,20 +86,20 @@ group_by.tbl_time <- function(.data, ..., add = FALSE) {
 
 #' @export
 #' @importFrom dplyr group_by
-# group_by.grouped_tbl_time <- function(.data, ..., add = FALSE) {
-#   #quos <- rlang::quos(...)
-# 
-#   # When we convert to as_tibble we lose all existing groups,
-#   # if the user wants to keep them with add = TRUE, explicitely pass them through
-#   if(add) {
-#     existing_groups <- dplyr::groups(.data)
-#     .data_grouped <- dplyr::group_by(as_tibble(.data), ..., !!! existing_groups)
-#   } else {
-#     .data_grouped <- dplyr::group_by(as_tibble(.data), ...)
-#   }
-# 
-#   grouped_tbl_time(.data_grouped, !! get_index_quo(.data))
-# }
+group_by.grouped_tbl_time <- function(.data, ..., add = FALSE) {
+  #quos <- rlang::quos(...)
+
+  # When we convert to as_tibble we lose all existing groups,
+  # if the user wants to keep them with add = TRUE, explicitely pass them through
+  if(add) {
+    existing_groups <- dplyr::groups(.data)
+    .data_grouped <- dplyr::group_by(as_tibble(.data), ..., !!! existing_groups)
+  } else {
+    .data_grouped <- dplyr::group_by(as_tibble(.data), ...)
+  }
+
+  grouped_tbl_time(.data_grouped, !! get_index_quo(.data))
+}
 
 #' @importFrom dplyr ungroup
 #'
