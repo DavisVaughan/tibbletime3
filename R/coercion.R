@@ -61,10 +61,11 @@ as_tbl_time.tbl_df <- function(x, index = NULL, ...) {
 }
 
 #' @export
-as_tbl_time.grouped_df <- function(x, index = NULL, ...) {
-  index_quo <- rlang::enquo(index)
-  grouped_tbl_time(x, !! index_quo)
-}
+# as_tbl_time.grouped_df <- function(x, index = NULL, ...) {
+#   index_quo <- rlang::enquo(index)
+#   #grouped_tbl_time(x, !! index_quo)
+#   tbl_time(x, !! index_quo)
+# }
 
 
 # Parent coercion --------------------------------------------------------------
@@ -79,5 +80,17 @@ as_tibble.tbl_time <- function(x, ...) {
   }
 
   tibble::new_tibble(x, ...)
+}
+
+#' @export
+#' @importFrom tibble as_tibble
+as_tibble.grouped_tbl_time <- function(x, ...) {
+  
+  # Remove index_* attributes
+  for(attrib in index_attributes()) {
+    attr(x, attrib) <- NULL
+  }
+  
+  tibble::new_tibble(x, ..., subclass = "grouped_df")
 }
 
