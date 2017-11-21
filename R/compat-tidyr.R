@@ -17,8 +17,6 @@ nest.tbl_time <- function(data, ..., .key = "data") {
   index_is_nested <- index_char %in% colnames(.data_nested[[.key_char]][[1]])
 
   # Each nested element should be a tbl_time with attributes
-  # Rather than copy all the attributes, this dplyr function will resync index
-  # If we don't do this, could be a large memory footprint
   if(index_is_nested) {
     mutate(
       .data_nested,
@@ -30,20 +28,6 @@ nest.tbl_time <- function(data, ..., .key = "data") {
     # The index is in the outer df
     sloop::reconstruct(.data_nested, ..original_data)
   }
-}
-
-#' @export
-#' @importFrom tidyr nest
-nest.grouped_tbl_time <- function(data, ..., .key = "data") {
-  .key        <- rlang::enexpr(.key)
-  data_groups <- dplyr::group_vars(data)
-  index_quo   <- get_index_quo(data)
-
-  # Ungroup
-  data <- as_tbl_time(dplyr::ungroup(data), !! index_quo)
-
-  # Nest, ignoring groups
-  nest(data, - tidyselect::one_of(!!! data_groups), ..., .key = !! .key)
 }
 
 #' @export
