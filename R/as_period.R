@@ -82,19 +82,19 @@
 #' as_period(FB, 2~d, start_date = "2013-01-01")
 #'
 as_period <- function(x, period = "yearly",
-                      side = "start", start_date = NULL) {
+                      start_date = NULL, side = "start", ...) {
   UseMethod("as_period")
 }
 
 #' @export
 as_period.default <- function(x, period = "yearly",
-                              side = "start", start_date = NULL) {
+                              start_date = NULL, side = "start", ...) {
   stop("Object is not of class `tbl_time`.", call. = FALSE)
 }
 
 #' @export
 as_period.tbl_time <- function(x, period = "yearly",
-                               side = "start", start_date = NULL) {
+                               start_date = NULL, side = "start", ...) {
 
   # Add time groups
   x_tg <- time_group(x, period, start_date)
@@ -103,12 +103,20 @@ as_period.tbl_time <- function(x, period = "yearly",
   if(side == "start")
     x_tg <- dplyr::filter(
       x_tg,
-      row_number() %in% (match(unique(.time_group), .time_group))
+      {
+        criteria <- vector(length = length(.time_group))
+        criteria[match(unique(.time_group), .time_group)] <- TRUE
+        criteria
+      }
     )
   else if(side == "end") {
     x_tg <- dplyr::filter(
       x_tg,
-      row_number() %in% (length(.time_group) - match(unique(.time_group), rev(.time_group)) + 1)
+      {
+        criteria <- vector(length = length(.time_group))
+        criteria[length(.time_group) - match(unique(.time_group), rev(.time_group)) + 1] <- TRUE
+        criteria
+      }
     )
   }
 
